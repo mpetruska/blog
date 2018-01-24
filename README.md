@@ -1,8 +1,8 @@
 ## Welcome
 
-Probably every enthusiastic professional develops
-ideas that are worth sharing (possibly to avoid 
-[reinventing the square wheel][square]).
+Probably every enthusiastic software engineer
+develops ideas that are worth sharing (possibly
+to avoid [reinventing the square wheel][square]).
 
 This blog is [my][cv] collection of thoughts and
 their rationale (or in some cases mathematical proof).
