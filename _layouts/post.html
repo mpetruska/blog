@@ -10,6 +10,18 @@ layout: default
   </article>
 </div>
 
+<hr />
+
+<div class="comments">
+  <dl>
+  {% for entry_hash in site.data.comments[page.slug] %}
+  {% assign e = entry_hash[1] %}
+    <dt>{{ e.name }}:</dt>
+    <dd>{{ e.message }}</dd>
+  {% endfor %}
+  </dl>
+</div>
+
 <div class="new-comment">
   <form method="POST" action="https://api.staticman.net/v2/entry/mpetruska/blog/master/comments">
     <input name="options[redirect]" type="hidden" value="{{ page.url | absolute_url }}" />

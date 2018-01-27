@@ -11,3 +11,12 @@ textarea {
   width: 100%;
   height: 5em;
 }
+
+.comments dt {
+  margin-top: 1em;
+  font-style: italic;
+}
+
+.comments dd {
+  font-style: normal;
+}
