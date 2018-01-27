@@ -14,8 +14,10 @@ layout: default
   <form method="POST" action="https://api.staticman.net/v2/entry/mpetruska/blog/master/comments">
     <input name="options[redirect]" type="hidden" value="{{ page.url | absolute_url }}" />
     <input name="options[slug]" type="hidden" value="{{ page.slug }}" />
-    <label for="name">Name</label><input name="fields[name]" type="text" />
-    <label for="message">Message</label><textarea name="fields[message]"></textarea>
+    <label for="name">Name</label>
+    <input id="name" name="fields[name]" type="text" />
+    <label for="message">Message</label>
+    <textarea id="message" name="fields[message]"></textarea>
     <button type="submit">Comment</button>
   </form>
 </div>
