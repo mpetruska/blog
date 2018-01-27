@@ -2,9 +2,22 @@
 layout: default
 ---
 <link rel="stylesheet" type="text/css" href="{{ "/css/overrides.css" | relative_url }}" />
+
 <div class="post">
   <h2 class="post-title">{{ page.title }}</h2>
   <article class="post-content">
     {{ content }}
   </article>
+</div>
+
+<div class="new-comment">
+  <form method="POST" action="https://api.staticman.net/v2/entry/mpetruska/blog/master/comments">
+    <input name="options[redirect]" type="hidden" value="{{ page.url | absolute_url }}" />
+    <input name="options[slug]" type="hidden" value="{{ page.slug }}" />
+    <label for="name">Name</label>
+    <input id="name" name="fields[name]" type="text" />
+    <label for="message">Message</label>
+    <textarea id="message" name="fields[message]"></textarea>
+    <button type="submit">Comment</button>
+  </form>
 </div>
