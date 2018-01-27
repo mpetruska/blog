@@ -1,4 +1,0 @@
-_id: 5ec6d780-0340-11e8-93cd-a3405948db3b
-name: Teszter
-message: "Basically this operation follows the structure of the Scala version: It accepts two conditions which match on the same value (typed A), and the case body can use both variables (typed X and Y) that are bound by the case conditions; hence the type of the body will be X -> Y -> B. The implementation of the and construct is also done via tactics, which I won’t unfold here. It is however available in the full proof script (see link below).\r\n\r\nNow after all this prelude we can state (and prove) the main theorems about the & construct:\r\n\r\nTheorem and_match_both_match : forall (A B X Y : Set) (a : A) (f : X -> Y -> B)\r\n    (c1 : scala_case_condition A X) (c2 : scala_case_condition A Y),\r\n    case_matches a (and_match c1 c2 f) <-> cond_matches a c1 /\\ cond_matches a c2."
-date: 1517043564
