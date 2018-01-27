@@ -22,7 +22,7 @@ case class User(username: String, emailAddress: String, ...)
 {% endhighlight %}
 
 Since the "record" is growing/changing as development of the
-application proceeds, it quickly becomes unpractical to use
+application proceeds, it quickly becomes impractical to use
 standard pattern matching against the generated extractor
 method (`User.unapply`).
 
@@ -67,8 +67,8 @@ user match {
 
 The downside is that combining the two matches seems more complicated
 now. The basic idea is to create a new extractor that is parametrized
-by two others, and combines them with the logical and
-operation; hence the name `&` seems appropriate. First let's create
+by two others, and combines them with the logical `and`
+operation; hence the name `&` seems appropriate. Let's create
 the extractor on top of functions, for simplicity's sake.
 
 {% highlight Scala %}
@@ -94,16 +94,16 @@ user match {
 
 {% endhighlight %}
 
-The problems with this syntax is quite apparent. First of all the
-combined extractor has to be created upfront, it cannot be built
-ad-hoc, as needed. Also the `&` constructor only accepts "extractors"
+The problems with this syntax are quite apparent. First of all, the
+combined extractor has to be created upfront and cannot be built
+ad-hoc, as needed. Second, the `&` constructor only accepts "extractors"
 (functions that return `Option[_]`) and no predicates. So, if we want
-to create a combinator to address these issues it needs to be an `object`
-that does not accept parameters, additionally it needs to be unaware
+to create a combinator to address these issues, it needs to be an `object`
+that does not accept parameters. Additionally it needs to be unaware
 of the types of the extractors combined.
 
-If we pattern matched on a tuple (or collection) with identical
-elements instead of a single value, we only need to de-structure the
+If we pattern-matched on a tuple (or collection) with identical
+elements instead of a single value, we would only need to de-structure the
 tuple in addition to calling the extractors:
 
 {% highlight Scala %}
@@ -114,9 +114,9 @@ tuple in addition to calling the extractors:
 
 {% endhighlight %}
 
-Unfortunately duplicating the values in the head of the match
+Unfortunately, duplicating the values in the head of the match
 is really unwieldy; but duplicating the values to be matched can
-be done with an extractor (similar to the `&` above) easily:
+easily be done with an extractor (similar to the `&` above):
 
 <a name="solution"></a>
 
@@ -148,8 +148,8 @@ case classes and objects with symbolic names.
 ... for those interested.
 
 Let's walk through the above structure in a mathematical formalism,
-to develop some confidence. I'll be using the [Coq theorem proover][Coq]
-to aid in stating and proving some properties of the combinator.
+to develop some confidence. I'll be using the [Coq theorem prover][Coq]
+to aid me in stating and proving some properties of the combinator.
 
 [Coq]: https://en.wikipedia.org/wiki/Coq
 
@@ -164,8 +164,8 @@ that the proofs we're doing are not full specifications by themselves,
 they rely on some implicit axioms.)
 
 To model a general Scala match, we first need to describe the `case` part,
-which models the condition and the parameters that are bound for the
-body of the case. We could just use a function `A -> B` for this, but
+which models the condition and the parameters that are bound.
+We could just use a function `A -> B` for this, but
 Scala allows two types of conditionals; hence we need to create an inductive type
 with two cases. This type should be indexed over the type of the matched value
 and the type of the bound parameters.
@@ -194,7 +194,9 @@ Inductive scala_case : Set -> Set -> Type :=
 
 The last piece of the puzzle is the whole `match` construct, which models
 the whole expression. Here I chose not to include the matched value in the
-construct:
+construct, it will be provided to the evaluation function as a parameter.
+So instead of `x match {}`, we model `_ match {}`. This does not effect
+the formalism much, it's purpose is to make it clear that a match is a function.
 
 {% highlight Coq %}
 
@@ -298,12 +300,12 @@ Definition and_match : forall A B X Y : Set,
 
 {% endhighlight %}
 
-Basically this operation follows the structure of the Scala version,
-it accepts two conditions, which match on the same value (typed `A`), and the
+Basically this operation follows the structure of the Scala version:
+It accepts two conditions which match on the same value (typed `A`), and the
 case body can use both variables (typed `X` and `Y`) that are bound by the
 case conditions; hence the type of the body will be `X -> Y -> B`.
-The implementation of the and construct is also done via tactics, which I won't
-unfold here, it is however available in the full proof script (see link below).
+The implementation of the `and` construct is also done via tactics, which I won't
+unfold here. It is however available in the full proof script (see link below).
 
 Now after all this prelude we can state (and prove) the main theorems about
 the `&` construct:
@@ -316,7 +318,7 @@ Theorem and_match_both_match : forall (A B X Y : Set) (a : A) (f : X -> Y -> B)
 
 {% endhighlight %}
 
-After the first two line (which are essentially just introduce the variables),
+After the first two lines (which essentially just introduce the variables),
 the theorem proves the main property, namely that `&` matches if and only if
 both the cases match.
 
@@ -337,5 +339,5 @@ Mark
 [coqtactics]:      https://coq.inria.fr/doc/tactics.html
 [coqgallina]:      https://coq.inria.fr/refman/gallina.html
 [fullinteractive]: https://x80.org/collacoq/votuwuwife.coq
-[githubcoqsource]: https://mpetruska.github.io/blog/sources/2018-01-26-scala-pattern-matching-and.v
+[githubcoqsource]: https://github.com/mpetruska/blog/blob/master/sources/2018-01-26-scala-pattern-matching-and.v
 
